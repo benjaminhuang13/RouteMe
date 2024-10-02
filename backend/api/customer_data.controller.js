@@ -9,55 +9,21 @@ const start_location_long = -73.831308;
 
 export default class CustomersCtrl {
   // apiPostCustomer function not compatible with queue
-  // static async apiPostCustomer(req, res, next) {
-  //   // static because you can call it directly from controller
-  //   console.log("apiPostCustomer called: " + req);
-  //   try {
-  //     const customerId = parseInt(req.body.zip);
-  //     const name = req.body.name;
-  //     const street_addr = req.body.street_addr;
-  //     const city = req.body.city;
-  //     const state = req.body.state;
-  //     const zip = req.body.zip;
-  //     const country = req.body.country;
-  //     const lat = req.body.lat;
-  //     const long = req.body.long;
-
-  //     //console.log("customerId: " + customerId);
-  //     const customerResponse = await CustomerDataDAO.addCustomer(
-  //       customerId,
-  //       name,
-  //       street_addr,
-  //       city,
-  //       state,
-  //       zip,
-  //       country,
-  //       lat,
-  //       long
-  //     );
-  //     res.json({ status: "success" });
-  //   } catch (e) {
-  //     res.status(500).json({ error: e.message });
-  //   }
-  // }
-
-  static async apiPostCustomer(jobData) {
-    //function compatible with handling job queue data
+  static async apiPostCustomer(req, res, next) {
     // static because you can call it directly from controller
-    console.log("apiPostCustomer called");
+    console.log("apiPostCustomer called: " + req);
     try {
-      const customerId = parseInt(jobData.zip);
-      const name = jobData.name;
-      const street_addr = jobData.street_addr;
-      const city = jobData.city;
-      const state = jobData.state;
-      const zip = jobData.zip;
-      const country = jobData.country;
-      const lat = jobData.lat;
-      const long = jobData.long;
+      const name = req.body.name;
+      const street_addr = req.body.street_addr;
+      const city = req.body.city;
+      const state = req.body.state;
+      const zip = req.body.zip;
+      const country = req.body.country;
+      const lat = req.body.lat;
+      const long = req.body.long;
 
+      //console.log("customerId: " + customerId);
       const customerResponse = await CustomerDataDAO.addCustomer(
-        customerId,
         name,
         street_addr,
         city,
@@ -67,16 +33,17 @@ export default class CustomersCtrl {
         lat,
         long
       );
-      console.log({ status: "success" });
+      res.json({ status: "success" });
     } catch (e) {
-      console.log(e.message);
+      res.status(500).json({ error: e.message });
     }
   }
 
   static async apiGetCustomer(req, res, next) {
     try {
-      let id = parseInt(req.params.id) || {};
-      let customer = await CustomerDataDAO.getCustomerById(id);
+      console.log("apiGetCustomer " + req.params.id);
+      let objId = req.params.id || {};
+      let customer = await CustomerDataDAO.getCustomerById(objId);
       if (!customer) {
         res.status(404).json({ error: "Not found" });
         return;
@@ -91,7 +58,7 @@ export default class CustomersCtrl {
   static async apiUpdateCustomer(req, res, next) {
     try {
       console.log("apiUpdateCustomer called");
-      const customerId = req.body.customerId;
+      const customerObjId = req.body.customerObjId;
       const name = req.body.name;
       const street_addr = req.body.street_addr;
       const city = req.body.city;
@@ -99,7 +66,7 @@ export default class CustomersCtrl {
       const zip = req.body.zip;
       //const country = req.body.country;
       const customerResponse = await CustomerDataDAO.updateCustomer(
-        customerId,
+        customerObjId,
         name,
         street_addr,
         city,
@@ -137,9 +104,11 @@ export default class CustomersCtrl {
 
   static async apiDeleteCustomer(req, res, next) {
     try {
-      const customerId = req.params.id;
-      console.log("Trying to delete " + customerId);
-      const customerResponse = await CustomerDataDAO.deleteCustomer(customerId);
+      const customerObjId = req.params.id;
+      console.log("Trying to delete " + customerObjId);
+      const customerResponse = await CustomerDataDAO.deleteCustomer(
+        customerObjId
+      );
       res.json({ status: "success" });
     } catch (e) {
       res.status(500).json({ error: e.message });

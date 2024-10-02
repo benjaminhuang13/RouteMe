@@ -5,7 +5,7 @@ This is a fullstack app that allows you to submit/save multiple addresses and ou
 This is deploying using only EC2s
 
 1. Go to AWS console, create t2.micro instance and allow SSH from your IP
-2. How to transfer app files from local Mac to remote EC2
+2. How to transfer app files from local Mac to remote EC2 https://www.youtube.com/watch?v=nQdyiK7-VlQ&t=785s&ab_channel=SamMeech-Ward
 
    - Download the private ssh key (to authenticate into remote EC2) usually this is added to ~/.ssh/key.pem
    - `chmod 600 <path to ssh key>`
@@ -76,25 +76,13 @@ This is deploying using only EC2s
    `sudo apt install caddy`
    Edit Caddy config file
    `sudo nano /etc/caddy/Caddyfile`
+   :80 {
+   reverse_proxy localhost:3000
+   }
 
-9. Host frontend on the same EC2: https://ubuntu.com/tutorials/install-and-configure-apache#5-activating-virtualhost-file
+- `sudo systemctl restart caddy`
 
-   - `sudo apt install apache2`
-   - move front end files to /var/www/html
-     https://medium.com/@akhshyganesh/deploy-front-end-framework-using-apache-ce055d47a41a
-   - `sudo a2enmod rewrite`
-   - `cd /etc/apache2$ cd sites-available`
-   - `nano .htaccess`
+## Deploying Frontend to S3
 
-   - `sudo a2ensite frontend-myproj1.conf`
-   - `sudo systemctl start apache2`
-   - `sudo systemctl status apache2`
-
-## References:
-
-Used to set up Queue:
-
-- https://www.youtube.com/watch?v=FFrPE0vr4Dw&ab_channel=DeKay
-- https://medium.com/@piyushgupta_81472/job-queuing-in-node-express-application-ee5642541c03
-- `npm i bull dotenv`
-- `docker run -p 6379:6379 --name redis -d redis redis-server --appendonly yes --requirepass <pw>`
+1. create static website on s3 and upload frontend files. Make sure to disable block public access and update IAM policy to allow access to all
+2. Use cloudflare as proxy and set it up to redirect to s3 bucket.

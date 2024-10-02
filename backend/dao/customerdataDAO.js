@@ -22,7 +22,6 @@ export default class CustomerDataDAO {
   }
 
   static async addCustomer(
-    customerId,
     name,
     street_addr,
     city,
@@ -35,7 +34,6 @@ export default class CustomerDataDAO {
     try {
       console.log("Writing new customer to database");
       const customerDoc = {
-        customerId: customerId,
         name: name,
         street_addr: street_addr,
         city: city,
@@ -45,14 +43,7 @@ export default class CustomerDataDAO {
         lat: lat,
         long: long,
       };
-      console.log(
-        "adding " +
-          name +
-          ", id: " +
-          customerId +
-          ", type: " +
-          typeof customerId
-      );
+      console.log("adding " + name);
       return await customer_data.insertOne(customerDoc);
     } catch (e) {
       console.error(`Unable to post customer_addr: ${e}`);
@@ -62,7 +53,7 @@ export default class CustomerDataDAO {
 
   static async getCustomer(customerId) {
     try {
-      return await customer_data.findOne({ _id: ObjectId(customerId) });
+      return await customer_data.findOne({ _id: new ObjectId(customerId) });
     } catch (e) {
       console.error(`Unable to get customer: ${e}`);
       return { error: e };
@@ -79,12 +70,18 @@ export default class CustomerDataDAO {
     }
   }
 
-  static async updateCustomer(customerId, name, street_addr, city, state, zip) {
+  static async updateCustomer(
+    customerObjId,
+    name,
+    street_addr,
+    city,
+    state,
+    zip
+  ) {
     try {
       const options = { upsert: true };
       const updateResponse = await customer_data.updateOne(
-        //{ _id: ObjectId(customerId) },
-        { customerId: parseInt(customerId) },
+        { _id: new ObjectId(customerId) },
         {
           $set: {
             name: name,
@@ -117,9 +114,9 @@ export default class CustomerDataDAO {
   //   }
   // }
 
-  static async deleteCustomer(customerId) {
+  static async deleteCustomer(customerObjId) {
     try {
-      const query = { customerId: parseInt(customerId) };
+      const query = { _id: new ObjectId(customerObjId) };
       const deleteResponse = await customer_data.deleteOne(query);
       if (deleteResponse["deletedCount"]) {
         console.log("Successfully deleted " + deleteResponse["deletedCount"]);
@@ -131,11 +128,11 @@ export default class CustomerDataDAO {
     }
   }
 
-  static async getCustomerById(customerId) {
+  static async getCustomerById(customerObjId) {
     try {
-      console.log("Getting customer by customerId");
+      console.log("Getting customer by customerObjId " + Object(customerObjId));
       const cursor = await customer_data.find({
-        customerId: parseInt(customerId),
+        _id: new ObjectId(customerObjId),
       });
       return cursor.toArray();
     } catch (e) {

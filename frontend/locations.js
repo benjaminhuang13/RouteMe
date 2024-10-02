@@ -1,4 +1,5 @@
 const BACKEND_API = "http://localhost:8000/api/v1/customer_data/";
+//const BACKEND_API = "http://50.17.3.254/api/v1/customer_data/"; // used for deploying to EC2
 const main = document.getElementById("customer_list_section");
 const form = document.getElementById("form");
 const checklist_buttons = document.getElementById("checklist_buttons");
@@ -33,14 +34,13 @@ async function returnCustomerData(url) {
       data.forEach((customer) => {
         const div_card = document.createElement("div");
         div_card.innerHTML = `
-            <div class="div_checklist_item" id="checkbox-${customer.customerId}">
-              <input class="customer_list_checkbox" type="checkbox" name="${customer.name}" id="${customer.customerId}">
+            <div class="div_checklist_item" id="checkbox-${customer._id}">
+              <input class="customer_list_checkbox" type="checkbox" name="${customer.name}" id="${customer._id}">
                 <p class="customer_list_addr"><strong>Name: </strong>${customer.name}</p>
-                <p class="customer_list_addr"><strong>CustomerId: </strong>${customer.customerId}</p>
                 <p class="customer_list_addr"><strong>Address: </strong>${customer.street_addr}</p>
                 <p class="customer_list_addr"><strong></strong>${customer.city}, ${customer.state} ${customer.zip}</p>
-                <p class="customer_list_addr"><a href="#" onclick="editCustomer('${customer.customerId}', '${customer.name}','${customer.street_addr}','${customer.city}','${customer.state}','${customer.zip}')"> <strong>Edit</strong></a> 
-                <p class="customer_list_addr"><a href="#" onclick="deleteCustomer('${customer.customerId}')"> <strong>Delete</strong></a></p>
+                <p class="customer_list_addr"><a href="#" onclick="editCustomer('${customer._id}', '${customer.name}','${customer.street_addr}','${customer.city}','${customer.state}','${customer.zip}')"> <strong>Edit</strong></a> 
+                <p class="customer_list_addr"><a href="#" onclick="deleteCustomer('${customer._id}')"> <strong>Delete</strong></a></p>
           </div>
         `;
         div_checklist.appendChild(div_card);
@@ -88,7 +88,6 @@ async function returnCustomerData(url) {
   save_customer_data_btn.addEventListener("click", (e) => {
     e.preventDefault(); //stops the form from submitting in the traditional way, which would refresh the page.
     submit_new_customer(
-      parseInt(input_zip.value),
       input_customer_name.value,
       input_street_addr.value,
       input_city.value,
@@ -119,7 +118,6 @@ async function initMap() {
 }
 
 async function submit_new_customer(
-  customerId,
   name,
   street_addr,
   city,
@@ -141,7 +139,6 @@ async function submit_new_customer(
     console.log(test + ` =>  Latitude: ${lat_}, Longitude: ${lng_}`);
   }
   console.log("After Geocode " + lat_ + "" + lng_);
-
   console.log(BACKEND_API + "new");
   const response = await fetch(BACKEND_API + "new", {
     method: "POST",
@@ -149,12 +146,11 @@ async function submit_new_customer(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      customerId: customerId,
       name: `${name}`,
       street_addr: `${street_addr}`,
       city: `${city}`,
       state: `${state}`,
-      zip: zip,
+      zip: parseInt(zip),
       country: `${country}`,
       lat: parseFloat(lat_),
       long: parseFloat(lng_),
@@ -186,7 +182,6 @@ function returnSavedCustomers(checked_customers_list) {
           div_card.innerHTML = `
                 <div class="div_checklist_item">
                     <p class="customer_list_addr"><strong>Name: </strong>${customer.name}</p>
-                    <p class="customer_list_addr"><strong>CustomerId: </strong>${customer.customerId}</p>
                     <p class="customer_list_addr"><strong>Address: </strong>${customer.street_addr}</p>
                     <p class="customer_list_addr"><strong></strong>${customer.city}, ${customer.state} ${customer.zip}</p>
               </div>
@@ -228,7 +223,8 @@ function getCheckedBoxes() {
     }
   }
   console.log(
-    "Returning customerId of checked customers: " + checked_customer_obj_id_list
+    "Returning customer_obj_Id of checked customers: " +
+      checked_customer_obj_id_list
   );
   return checked_customer_obj_id_list;
 }
@@ -269,10 +265,16 @@ async function generate_route(list_of_customers) {
       .then((res) => res.json())
       .then(function (data) {
         console.log(
-          "customerId: " + list_of_customers[i] + " got lat: " + data[0].lat
+          "customer obj Id: " +
+            list_of_customers[i] +
+            " got lat: " +
+            data[0].lat
         );
         console.log(
-          "customerId: " + list_of_customers[i] + " got long: " + data[0].long
+          "customer obj Id: " +
+            list_of_customers[i] +
+            " got long: " +
+            data[0].long
         );
         temp_location.location.latLng.latitude = data[0].lat;
         temp_location.location.latLng.longitude = data[0].long;
@@ -419,9 +421,9 @@ function clear() {
   //responseDiv.style.display = "none";
 }
 
-function deleteCustomer(customerId) {
-  console.log("deleteCustomer function called for Id:" + customerId);
-  fetch(BACKEND_API + "customer/" + customerId, {
+function deleteCustomer(customerObjId) {
+  console.log("deleteCustomer function called for Id:" + customerObjId);
+  fetch(BACKEND_API + "customer/" + customerObjId, {
     method: "DELETE",
     headers: {
       Accept: "application/json, text/plain, */*",
@@ -435,9 +437,11 @@ function deleteCustomer(customerId) {
     });
 }
 
-function editCustomer(customerId, name, st_addr, city, state, zip) {
-  console.log("editCustomer function called for " + name + " Id:" + customerId);
-  const element = document.getElementById("checkbox-" + customerId);
+function editCustomer(customerObjId, name, st_addr, city, state, zip) {
+  console.log(
+    "editCustomer function called for " + name + " Id:" + customerObjId
+  );
+  const element = document.getElementById("checkbox-" + customerObjId);
   const inputNameId = "input_name" + name;
   const inputSt_addrId = "input_staddr" + st_addr;
   const inputCityId = "input_city" + city;
@@ -452,13 +456,13 @@ function editCustomer(customerId, name, st_addr, city, state, zip) {
     <p> <strong>City</strong> <input class='edit_input' type='text' id='${inputCityId}' value='${city}'> </input> </p>
     <p> <strong>State</strong> <input class='edit_input' type='text' id='${inputStateId}' value='${state}'> </input> </p>
     <p> <strong>Zip</strong> <input class='edit_input' type='text' id='${input_ZipId}' value='${zip}'> </input> </p>
-    <p class='edit_p'> <a href="#" class='edit_save_btn' onclick="saveCustomer('${customerId}', '${inputNameId}', '${inputSt_addrId}', '${inputCityId}', '${inputStateId}', '${input_ZipId}')"> <strong>Save</strong></$></p>
+    <p class='edit_p'> <a href="#" class='edit_save_btn' onclick="saveCustomer('${customerObjId}', '${inputNameId}', '${inputSt_addrId}', '${inputCityId}', '${inputStateId}', '${input_ZipId}')"> <strong>Save</strong></$></p>
     <div>
   `;
 }
 
 function saveCustomer(
-  customerId,
+  customerObjId,
   inputNameId,
   inputSt_addrId,
   inputCityId,
@@ -472,14 +476,14 @@ function saveCustomer(
   const state = document.getElementById(inputStateId).value;
   const zip = document.getElementById(input_ZipId).value;
 
-  fetch(BACKEND_API + "customer/" + customerId, {
+  fetch(BACKEND_API + "customer/" + customerObjId, {
     method: "PUT",
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      customerId: customerId,
+      customerObjId: customerObjId,
       name: name,
       street_addr: street_addr,
       city: city,
