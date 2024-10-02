@@ -1,0 +1,201 @@
+body {
+  background-color: #131720;
+  font-family: sans-serif;
+  color: white;
+  padding: 50px;
+}
+a {
+  text-decoration: none;
+}
+
+.sections {
+  text-align: center;
+  vertical-align: middle;
+  background-color: #192238;
+  min-height: 100px;
+  padding: 30px;
+  margin: 20px;
+}
+.topnav {
+  overflow: hidden;
+  background-color: #131720;
+  padding: 10px;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.topnav .search-container {
+  float: right;
+}
+
+form {
+  background-color: #151f30;
+  width: 300px;
+  height: 43px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+}
+
+input {
+  font: 15px system-ui;
+  color: black;
+  height: 100%;
+  width: 100%;
+  padding: 6px 9px;
+}
+
+.thumbnail {
+  height: 350px;
+  width: 300px;
+  border-radius: 19px;
+}
+
+/*Customer Address Input Form*/
+.customer-input-wrapper,
+.update_address_wrapper {
+  text-align: left;
+  vertical-align: middle;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+}
+
+.customer-input-wrapper .customer-input-form {
+  padding: 30px;
+  width: 90vw;
+  max-width: 20em;
+  display: table;
+}
+
+.customer-input-wrapper .customer-form-button {
+  margin-top: 2rem;
+}
+
+.customer-input-wrapper input {
+  border: 1px solid;
+  padding: 0.3em;
+  width: 100%;
+}
+
+.customer-input-wrapper textarea {
+  width: 100%;
+  min-height: 6em;
+}
+
+.customer-input-wrapper label {
+  display: block;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.customer-input-wrapper select {
+  font-size: 16px;
+}
+
+.customer-input-wrapper .postal-code {
+  width: 50%;
+}
+/*Customer CheckList*/
+.div_checklist_item {
+  background-color: rgb(65, 198, 231);
+  color: black;
+  max-width: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto;
+  padding: 20px;
+}
+.div_checklist_item:hover {
+  background-color: rgb(121, 212, 235);
+}
+
+.customer_list_checkbox {
+  vertical-align: middle;
+  max-width: 70px;
+}
+
+.edit_cust_addr_btn {
+  font-size: small;
+  margin: 0 auto;
+  border: none;
+  height: fit-content;
+}
+
+.customer_list_checkbox,
+.customer_list_label,
+.customer_list_addr,
+.edit_cust_addr_btn {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.route_button_div {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.gen_route_button,
+.add_to_route_button,
+.clear_route_button {
+  font-size: large;
+  margin: 0 auto;
+  display: block;
+  width: 200px;
+  height: 50px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.gen_route_button:hover,
+.add_to_route_button:hover,
+.clear_route_button:hover {
+  background-color: rgb(182, 182, 182);
+}
+
+.error_div {
+  text-align: center;
+  vertical-align: middle;
+  height: 50px;
+}
+
+#google_map {
+  min-height: 400px;
+}
+
+.edit_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit_input {
+  height: auto;
+  width: 150px;
+  padding: 5px;
+  margin: 5px;
+  border: none;
+  text-align: center;
+}
+.edit_p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+}
