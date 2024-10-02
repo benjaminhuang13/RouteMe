@@ -1,4 +1,4 @@
-backend/secrets/*
+backend/secrets
 backend/.env
 backend/node_modules/
 backend/.vscode
