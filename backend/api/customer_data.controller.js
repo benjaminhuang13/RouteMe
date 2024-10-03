@@ -137,7 +137,7 @@ export default class CustomersCtrl {
   static async apiPostGenRoute(req, res, next) {
     console.log("Generating Route API called");
     const list_of_intermediates = req.body;
-    console.log("intermediates: " + list_of_intermediates);
+    console.log("intermediates: " + JSON.stringify(list_of_intermediates));
     try {
       const response = await callComputeRoutes(list_of_intermediates);
       res.json(response);
