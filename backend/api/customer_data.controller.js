@@ -173,7 +173,6 @@ async function callComputeRoutes(list_of_intermediates) {
           },
         },
       },
-      //polylineEncoding: "GEO_JSON_LINESTRING",
       intermediates: list_of_intermediates,
       optimizeWaypointOrder: true,
     },

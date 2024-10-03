@@ -60,7 +60,7 @@ This is deploying using only EC2s
 
 7. Troubleshooting
    `systemctl status myproj1.service` How to status details of your service
-   `journalctl -xeu myproj1.service` How to log details of your service
+   `journalctl -xeu jhu-myproj1.service` How to log details of your service
    `cat /var/log/syslog` check system logs  
    `curl localhost:8000` check that the app is running
    `sudo lsof -i :8000` how to check what process is running on port 8000
@@ -77,7 +77,12 @@ This is deploying using only EC2s
    Edit Caddy config file
    `sudo nano /etc/caddy/Caddyfile`
    :80 {
-   reverse_proxy localhost:3000
+   reverse_proxy localhost:8000
+   }
+
+   or
+   <domainname>{
+   reverse_proxy localhost:8000
    }
 
 - `sudo systemctl restart caddy`
@@ -86,3 +91,22 @@ This is deploying using only EC2s
 
 1. create static website on s3 and upload frontend files. Make sure to disable block public access and update IAM policy to allow access to all
 2. Use cloudflare as proxy and set it up to redirect to s3 bucket.
+
+# Google API Permissions
+
+1. Create one API key for frontend. Restrict the key to webistes and add your domain. Restrict the key to APIs:
+   Geocoding API
+   Geolocation API
+   Maps Embed API
+   Maps JavaScript API
+   Maps Static API
+   Routes API
+   Route Optimization API
+   Places API
+   Roads API
+   Maps SDK for iOS
+   Maps SDK for Android
+   Directions API
+   Distance Matrix API
+
+2. Create another API key for the backend. Restrict the key to IP addresses and add your EC2 public IP. Restrict the key to the same APIs.

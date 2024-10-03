@@ -1,5 +1,6 @@
-const BACKEND_API = "http://localhost:8000/api/v1/customer_data/";
+//const BACKEND_API = "http://localhost:8000/api/v1/customer_data/";
 //const BACKEND_API = "http://50.17.3.254/api/v1/customer_data/"; // used for deploying to EC2
+const BACKEND_API = "https://routemeback.benyellow.com/api/v1/customer_data/";
 const main = document.getElementById("customer_list_section");
 const form = document.getElementById("form");
 const checklist_buttons = document.getElementById("checklist_buttons");
@@ -160,6 +161,7 @@ async function submit_new_customer(
     .then((data) => {
       console.log("Success:", data);
       submit_new_customer_response.innerHTML = `<p>Successfully added ${name}</p>`;
+      location.reload();
     });
 }
 
@@ -247,6 +249,7 @@ async function generate_route(list_of_customers) {
     return;
   }
   let list_of_locations = [];
+  let list_of_coords = [];
   for (var i = 0; i < list_of_customers.length; i++) {
     let temp_location = {
       location: {
@@ -278,10 +281,12 @@ async function generate_route(list_of_customers) {
         );
         temp_location.location.latLng.latitude = data[0].lat;
         temp_location.location.latLng.longitude = data[0].long;
+        list_of_coords.push({ lat: data[0].lat, long: data[0].long });
       });
     list_of_locations.push(temp_location);
   }
   console.log("list_of_locations: " + JSON.stringify(list_of_locations));
+  console.log("list_of_coords: " + JSON.stringify(list_of_coords));
 
   // GETS route for the list_of_customers from Google Route API
   await fetch(BACKEND_API + "gen_route", {
@@ -296,40 +301,51 @@ async function generate_route(list_of_customers) {
       console.log(
         "Response for gen route api: " + JSON.stringify(route_data.length)
       );
-      const totalDistanceMeters = JSON.stringify(
-        route_data[0].routes[0].distanceMeters
-      );
-      const totalDurationSeconds = parseInt(
-        route_data[0].routes[0].duration.seconds
-      );
-      const warnings_list = JSON.stringify(route_data[0].routes[0].warnings);
-      const encoded_polyline = route_data[0].routes[0].polyline.encodedPolyline;
-      const travelAdvisory = JSON.stringify(
-        route_data[0].routes[0].travelAdvisory
-      );
-      const locallizedValues_dist = JSON.stringify(
-        route_data[0].routes[0].localizedValues.distance.text
-      );
-      const locallizedValues_duration = JSON.stringify(
-        route_data[0].routes[0].localizedValues.duration.text
-      );
+      console.log(JSON.stringify(route_data));
+      if (route_data.length > 0) {
+        const encoded_polyline =
+          route_data[0].routes[0].polyline.encodedPolyline;
+        const totalDistanceMeters = JSON.stringify(
+          route_data[0].routes[0].distanceMeters
+        );
+        const totalDurationSeconds = parseInt(
+          route_data[0].routes[0].duration.seconds
+        );
+        const warnings_list = JSON.stringify(route_data[0].routes[0].warnings);
+        const travelAdvisory = JSON.stringify(
+          route_data[0].routes[0].travelAdvisory
+        );
+        const locallizedValues_dist = JSON.stringify(
+          route_data[0].routes[0].localizedValues.distance.text
+        );
+        const locallizedValues_duration = JSON.stringify(
+          route_data[0].routes[0].localizedValues.duration.text
+        );
 
-      const legs = route_data[0].routes[0].legs;
+        const legs = route_data[0].routes[0].legs;
 
-      console.log(legs);
+        console.log(legs);
 
-      console.log(encoded_polyline);
-      console.log(JSON.stringify(decodePolyline(encoded_polyline)));
+        console.log(encoded_polyline);
+        console.log(
+          "ENCODED POLYLINE:\n" +
+            JSON.stringify(decodePolyline(encoded_polyline))
+        );
 
-      //map.addPolyline();
-      updateMap(decodePolyline(encoded_polyline));
+        //map.addPolyline();
+        updateMap(decodePolyline(encoded_polyline));
+      }
     });
 }
 
 function updateMap(decoded_polyline) {
+  var bounds = new google.maps.LatLngBounds();
+  for (var i = 0; i < decoded_polyline.length; i++) {
+    bounds.extend(decoded_polyline[i]);
+  }
   map = new google.maps.Map(document.getElementById("google_map"), {
     zoom: 14,
-    center: { lat: 40.7647, lng: -73.8307 },
+    center: bounds.getCenter(),
   });
   console.log(typeof decoded_polyline);
   const polyline = new google.maps.Polyline({
