@@ -110,3 +110,8 @@ This is deploying using only EC2s
    Distance Matrix API
 
 2. Create another API key for the backend. Restrict the key to IP addresses and add your EC2 public IP. Restrict the key to the same APIs.
+
+References:
+
+- How to build Gitlab Action to deploy image to ECR: https://plainenglish.io/community/build-push-docker-image-to-aws-ecr-using-github-actions
+- How to create dockerfile https://www.digitalocean.com/community/tutorials/how-to-build-a-node-js-application-with-docker#step-3-writing-the-dockerfile
