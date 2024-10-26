@@ -1,0 +1,9 @@
+# Docker Commands
+
+docker build -t benjhg13/proj2-test:0.0.0.RELEASE .
+
+docker container run -d -p 8000:8000 benjhg13/proj2-test:0.0.0.RELEASE
+
+docker container ls
+
+docker container stop f43249fc4443
