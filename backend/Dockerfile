@@ -9,6 +9,12 @@ EXPOSE 8000
 RUN mkdir -p /etc/secrets/ 
 RUN touch /etc/secrets/.env
 RUN --mount=type=secret,id=_env,dst=/etc/secrets/.env cat /etc/secrets/.env
+
+RUN --mount=type=secret,id=secret_1 \
+    sed -i "s/MY_SECRET_1=/MY_SECRET_1=$(cat /run/secrets/secret_1)/" .env.production
+
+
+
 RUN npm install
 
 CMD [ "node", "index.js" ]

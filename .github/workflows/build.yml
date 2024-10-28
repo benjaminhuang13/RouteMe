@@ -44,17 +44,13 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build the app image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: routeme
-          IMAGE_TAG: proj2_backend_${{env.NOW}}
         uses: docker/build-push-action@v4
         with:
           push: true
           context: .
           file: ./backend
           platforms: linux/amd64
-          tags: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          tags: ${{ steps.login-ecr.outputs.registry }}/routeme:proj2_backend_${{env.NOW}}
           secrets: |
             "MONGO_USERNAME = ${{ secrets.MONGO_USERNAME }}"
             "MONGO_PASSWORD = ${{ secrets.MONGO_PASSWORD }}"
