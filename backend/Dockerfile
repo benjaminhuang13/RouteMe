@@ -25,9 +25,10 @@ RUN --mount=type=secret,id=g_maps_api_key,required=true  \
     echo "GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}" >> /app/.env
 RUN --mount=type=secret,id=g_svc_acc_key,required=true  \
     export GOOGLE_SVC_KEY=$(cat /run/secrets/g_svc_acc_key) && \
-    echo ${GOOGLE_MAPS_API_KEY} >> /app/secrets/gcp_auth.json 
+    echo ${GOOGLE_SVC_KEY} >> /app/secrets/gcp_auth.json 
 
 RUN cat /app/.env
+RUN cat /app/secrets/gcp_auth.json
 
 RUN npm install
 
