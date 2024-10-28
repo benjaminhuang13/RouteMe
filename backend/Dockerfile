@@ -13,8 +13,12 @@ EXPOSE 8000
 RUN mkdir -p /app/secrets/ 
 RUN touch /app/secrets/gcp_auth.json
 
-ARG MONGO_USERNAME
-RUN --mount=type=secret,id=mongo_username,required=true,env=MONGO_USERNAME
+
+ARG MONGO_USERNAME 
+RUN --mount=type=secret,id=$MONGO_USERNAME \
+MONGO_USERNAME=$(cat /run/secrets/$MONGO_USERNAME)
+
+RUN --mount=type=secret,id=MONGO_USERNAME,required=true,env=MONGO_USERNAME
 RUN --mount=type=secret,id=mongo_password,required=true
 RUN --mount=type=secret,id=g_app_cred,required=true
 RUN --mount=type=secret,id=g_maps_api_key,required=true
