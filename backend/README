@@ -1,7 +1,7 @@
 # Docker Commands
 
 The period at the end tells the command to search for the Dockerfile in the same directory
-`docker build -t benjhg13/proj2-test:0.0.1 .`
+`docker build -t benjhg13/proj2-test:0.0.2 .`
 
 choose which ports
 `docker container run -d -p 8800:8000 benjhg13/proj2-test:0.0.1`

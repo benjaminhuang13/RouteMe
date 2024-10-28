@@ -21,7 +21,7 @@ RUN --mount=type=secret,id=mongo_password \
 RUN --mount=type=secret,id=g_app_cred \
     sed -i "s/GOOGLE_APPLICATION_CREDENTIALS=/GOOGLE_APPLICATION_CREDENTIALS=$(cat /run/secrets/g_app_cred)/" .env.production
 RUN --mount=type=secret,id=g_maps_api_key \
-    sed -i "s/GOOGLE_MAPS_API_KEY=/GOOGLE_MAPS_API_KEY=$(cat /run/secrets/g_maps_api_key)/" /secrets/gcp_auth.json
+    sed -i "s/GOOGLE_MAPS_API_KEY=/GOOGLE_MAPS_API_KEY=$(cat /run/secrets/g_maps_api_key)/" secrets/gcp_auth.json
 
 
 RUN npm install
