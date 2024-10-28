@@ -27,12 +27,6 @@ ARG GOOGLE_MAPS_API_KEY
 RUN --mount=type=secret,id=$GOOGLE_MAPS_API_KEY,required=true \
     GOOGLE_MAPS_API_KEY=$(cat /run/secrets/$GOOGLE_MAPS_API_KEY)
 
-
-RUN --mount=type=secret,id=MONGO_USERNAME,required=true,env=MONGO_USERNAME
-RUN --mount=type=secret,id=mongo_password,required=true
-RUN --mount=type=secret,id=g_app_cred,required=true
-RUN --mount=type=secret,id=g_maps_api_key,required=true
-
 RUN npm install
 
 CMD [ "node", "index.js" ]
