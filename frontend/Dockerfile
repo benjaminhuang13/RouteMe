@@ -6,9 +6,6 @@ COPY . /app
 #USER node
 COPY --chown=node:node . .
 EXPOSE 8000
-RUN mkdir -p /etc/secrets/ 
-RUN touch /etc/secrets/.env
-RUN --mount=type=secret,id=_env,dst=/etc/secrets/.env cat /etc/secrets/.env
-RUN npm install
+#RUN npm install
 
-CMD [ "node", "index.js" ]
+#CMD [ "node", "index.js" ]

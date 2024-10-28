@@ -55,7 +55,6 @@ jobs:
             "MONGO_USERNAME = ${{ secrets.MONGO_USERNAME }}"
             "MONGO_PASSWORD = ${{ secrets.MONGO_PASSWORD }}"
             "GOOGLE_APPLICATION_CREDENTIALS = ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}"
-            "GOOGLE_APPLICATION_CREDENTIALS = ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}"
             "GOOGLE_MAPS_API_KEY = ${{secrets.GOOGLE_MAPS_API_KEY}}"
 
   build-frontend:
