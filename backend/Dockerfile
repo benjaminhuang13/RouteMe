@@ -17,12 +17,8 @@ RUN ls -la > output.txt
 RUN echo "Output of ls:"
 RUN cat output.txt
 
-RUN ls -la /run > output.txt
-RUN echo "Output of ls /run:"
-RUN cat output.txt
-
-RUN ls -la /run/secrets > output.txt
-RUN echo "Output of ls /run/secrets:"
+RUN ls -la /secrets > output.txt
+RUN echo "Output of ls /secrets:"
 RUN cat output.txt
 
 
