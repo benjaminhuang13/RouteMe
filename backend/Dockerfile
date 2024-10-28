@@ -27,9 +27,6 @@ RUN --mount=type=secret,id=g_svc_acc_key,required=true  \
     export GOOGLE_SVC_KEY=$(cat /run/secrets/g_svc_acc_key) && \
     echo ${GOOGLE_SVC_KEY} >> /app/secrets/gcp_auth.json 
 
-RUN cat /app/.env
-RUN cat /app/secrets/gcp_auth.json
-
 RUN npm install
 
 CMD [ "node", "index.js" ]
