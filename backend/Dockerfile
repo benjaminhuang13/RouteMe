@@ -21,7 +21,8 @@ RUN touch /app/secrets/gcp_auth.json
 # RUN echo "Output of ls /secrets:"
 # RUN cat output.txt
 
-
+RUN --mount=type=secret,id=mongo_password,required=true  \
+    cat /run/secrets/mongo_password
 RUN --mount=type=secret,id=mongo_username,required=true,target=/run/secrets/mongo_username  \
     cat /run/secrets/mongo_username
 RUN --mount=type=secret,id=mongo_password,required=true \
