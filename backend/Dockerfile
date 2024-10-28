@@ -14,14 +14,10 @@ EXPOSE 8000
 RUN mkdir -p /app/secrets/ 
 RUN touch /app/secrets/gcp_auth.json
 
-ARG mongo_username
-ARG mongo_password
-ARG g_app_cred
-ARG g_maps_api_key 
-
-RUN ls 
-RUN ls /run
-RUN ls /run/secrets/
+RUN --mount=type=secret,id=mongo_username,env=MONGO_USERNAME
+RUN --mount=type=secret,id=mongo_password,env=MONGO_PASSWORD
+RUN --mount=type=secret,id=g_app_cred,env=GOOGLE_APPLICATION_CREDENTIALS
+RUN --mount=type=secret,id=g_maps_api_key,env=GOOGLE_MAPS_API_KEY
 
 RUN --mount=type=secret,id=mongo_username \
     sed -i "s/MONGO_USERNAME=/MONGO_USERNAME=$(cat /run/secrets/mongo_username)/" .env.production
