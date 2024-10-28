@@ -19,6 +19,10 @@ ARG mongo_password
 ARG g_app_cred
 ARG g_maps_api_key 
 
+RUN ls 
+RUN ls /run
+RUN ls /run/secrets/
+
 RUN --mount=type=secret,id=mongo_username \
     sed -i "s/MONGO_USERNAME=/MONGO_USERNAME=$(cat /run/secrets/mongo_username)/" .env.production
 RUN --mount=type=secret,id=mongo_password \
