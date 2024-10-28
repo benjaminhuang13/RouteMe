@@ -2,8 +2,8 @@
 //const BACKEND_API = "http://50.17.3.254/api/v1/customer_data/"; // used for deploying to EC2 in proj1
 //const BACKEND_API = "http://localhost:8800/api/v1/customer_data/"; // used for testing containerized app
 // const BACKEND_API = "https://routemeback.benyellow.com/api/v1/customer_data/";
-const BACKEND_API =
-  "routeme-alb-1630067429.us-east-1.elb.amazonaws.com/routeme-back/api/v1/customer_data/";
+// const BACKEND_API = "routeme-alb-1630067429.us-east-1.elb.amazonaws.com/routeme-back/api/v1/customer_data/";
+const BACKEND_API = "routeme-back/api/v1/customer_data/all";
 const main = document.getElementById("customer_list_section");
 const form = document.getElementById("form");
 const checklist_buttons = document.getElementById("checklist_buttons");
