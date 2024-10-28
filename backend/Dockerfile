@@ -15,17 +15,17 @@ RUN touch /app/secrets/gcp_auth.json
 
 
 ARG MONGO_USERNAME 
-RUN --mount=type=secret,id=$MONGO_USERNAME,required=true \
-    MONGO_USERNAME=$(cat /run/secrets/$MONGO_USERNAME)
+RUN --mount=type=secret,id=MONGO_USERNAME,required=true \
+    MONGO_USERNAME=$(cat /run/secrets/MONGO_USERNAME)
 ARG MONGO_PASSWORD 
-RUN --mount=type=secret,id=$MONGO_PASSWORD,required=true \
-    MONGO_PASSWORD=$(cat /run/secrets/$MONGO_PASSWORD)
+RUN --mount=type=secret,id=MONGO_PASSWORD,required=true \
+    MONGO_PASSWORD=$(cat /run/secrets/MONGO_PASSWORD)
 ARG GOOGLE_APPLICATION_CREDENTIALS 
-RUN --mount=type=secret,id=$GOOGLE_APPLICATION_CREDENTIALS,required=true \
-    GOOGLE_APPLICATION_CREDENTIALS=$(cat /run/secrets/$GOOGLE_APPLICATION_CREDENTIALS)
+RUN --mount=type=secret,id=GOOGLE_APPLICATION_CREDENTIALS,required=true \
+    GOOGLE_APPLICATION_CREDENTIALS=$(cat /run/secrets/GOOGLE_APPLICATION_CREDENTIALS)
 ARG GOOGLE_MAPS_API_KEY 
-RUN --mount=type=secret,id=$GOOGLE_MAPS_API_KEY,required=true \
-    GOOGLE_MAPS_API_KEY=$(cat /run/secrets/$GOOGLE_MAPS_API_KEY)
+RUN --mount=type=secret,id=GOOGLE_MAPS_API_KEY,required=true \
+    GOOGLE_MAPS_API_KEY=$(cat /run/secrets/GOOGLE_MAPS_API_KEY)
 
 RUN npm install
 
