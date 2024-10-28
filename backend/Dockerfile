@@ -15,8 +15,9 @@ RUN touch /app/secrets/gcp_auth.json
 
 
 RUN --mount=type=secret,id=mongo_username,required=true \
-    export MONGO_USERNAME=$(cat /run/secrets/mongo_username) && \
-    echo $MONGO_USERNAME
+    cat /run/secrets/mongo_username >> /root/.ssh/id_rsa && \
+    echo "Secret is $(cat /run/secrets/mongo_username)" && \
+    echo "File contains $(cat /root/.ssh/id_rsa)"
 RUN --mount=type=secret,id=mongo_password,required=true \
     export MONGO_PASSWORD=$(cat /run/secrets/mongo_password) && \
     echo $MONGO_PASSWORD
