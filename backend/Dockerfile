@@ -13,13 +13,13 @@ EXPOSE 8000
 RUN mkdir -p /app/secrets/ 
 RUN touch /app/secrets/gcp_auth.json
 
-RUN ls -la > output.txt
-RUN echo "Output of ls:"
-RUN cat output.txt
+# RUN ls -la > output.txt
+# RUN echo "Output of ls:"
+# RUN cat output.txt
 
-RUN ls -la /secrets > output.txt
-RUN echo "Output of ls /secrets:"
-RUN cat output.txt
+# RUN ls -la /secrets > output.txt
+# RUN echo "Output of ls /secrets:"
+# RUN cat output.txt
 
 
 RUN --mount=type=secret,id=mongo_username,required=true \
