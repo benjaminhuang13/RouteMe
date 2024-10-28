@@ -13,14 +13,10 @@ EXPOSE 8000
 RUN mkdir -p /app/secrets/ 
 RUN touch /app/secrets/gcp_auth.json
 
-RUN --mount=type=secret,id=mongo_username, required=true \
-    export MONGO_USERNAME=$(cat /run/secrets/mongo_username) 
-RUN --mount=type=secret,id=mongo_password, required=true \
-    export MONGO_PASSWORD=$(cat /run/secrets/mongo_password)    
-RUN --mount=type=secret,id=g_app_cred, required=true \
-    export GOOGLE_APPLICATION_CREDENTIALS=$(cat /run/secrets/g_app_cred) 
-RUN --mount=type=secret,id=g_maps_api_key, required=true \
-    export GOOGLE_MAPS_API_KEY=$(cat /run/secrets/g_maps_api_key) 
+RUN --mount=type=secret,id=mongo_username,required=true
+RUN --mount=type=secret,id=mongo_password,required=true
+RUN --mount=type=secret,id=g_app_cred,required=true
+RUN --mount=type=secret,id=g_maps_api_key,required=true
 
 RUN npm install
 
