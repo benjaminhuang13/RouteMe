@@ -12,20 +12,19 @@ RUN touch /app/secrets/gcp_auth.json
 
 RUN --mount=type=secret,id=mongo_username,required=true  \
     export MONGO_USERNAME=$(cat /run/secrets/mongo_username) && \
-    echo "MONGO_USERNAME=${MONGO_USERNAME}" >> /etc/environment
+    echo "MONGO_USERNAME=${MONGO_USERNAME}" >> /app/.env
 RUN --mount=type=secret,id=mongo_password,required=true  \
     export MONGO_PASSWORD=$(cat /run/secrets/mongo_password) && \
-    echo "MONGO_PASSWORD=${MONGO_PASSWORD}" >> /etc/environment
+    echo "MONGO_PASSWORD=${MONGO_PASSWORD}" >> /app/environment
 RUN --mount=type=secret,id=g_app_cred,required=true  \
     export GOOGLE_APPLICATION_CREDENTIALS=$(cat /run/secrets/g_app_cred) && \
-    echo "GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}" >> /etc/environment
+    echo "GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}" >> /app/.env
 RUN --mount=type=secret,id=g_maps_api_key,required=true  \
     export GOOGLE_MAPS_API_KEY=$(cat /run/secrets/g_maps_api_key) && \
-    echo "GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}" >> /etc/environment
+    echo "GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}" >> /app/.env
 RUN --mount=type=secret,id=g_svc_acc_key,required=true  \
     export GOOGLE_SVC_KEY=$(cat /run/secrets/g_svc_acc_key) && \
     echo ${GOOGLE_MAPS_API_KEY} >> /app/secrets/gcp_auth.json 
-
 
 RUN npm install
 
