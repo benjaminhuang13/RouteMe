@@ -94,7 +94,7 @@ This is deploying using only EC2s
 
 # Google API Permissions
 
-1. Create one API key for frontend. Restrict the key to webistes and add your domain. Restrict the key to APIs:
+1. Create one API key for frontend. Click the Actions (3 dots) and click `Edit API Key` Restrict the key to `Websites` and add your domain ( benyellow.com, https://www.benyellow.com/). Restrict the key to APIs:
    Geocoding API
    Geolocation API
    Maps Embed API
@@ -109,7 +109,7 @@ This is deploying using only EC2s
    Directions API
    Distance Matrix API
 
-2. Create another API key for the backend. Restrict the key to IP addresses and add your EC2 public IP. Restrict the key to the same APIs.
+2. Create another API key for the backend. Do the same and restrict the key to `IP addresses` and add your EC2 public IP. Restrict the key to the same APIs.
 
 References:
 

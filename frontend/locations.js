@@ -1,5 +1,6 @@
-//const BACKEND_API = "http://localhost:8000/api/v1/customer_data/";
-//const BACKEND_API = "http://50.17.3.254/api/v1/customer_data/"; // used for deploying to EC2
+//const BACKEND_API = "http://localhost:8000/api/v1/customer_data/"; // used for testing locally
+//const BACKEND_API = "http://50.17.3.254/api/v1/customer_data/"; // used for deploying to EC2 in proj1
+//const BACKEND_API = "http://localhost:8800/api/v1/customer_data/"; // used for testing containerized app
 const BACKEND_API = "https://routemeback.benyellow.com/api/v1/customer_data/";
 const main = document.getElementById("customer_list_section");
 const form = document.getElementById("form");
