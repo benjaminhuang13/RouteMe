@@ -14,18 +14,18 @@ RUN mkdir -p /app/secrets/
 RUN touch /app/secrets/gcp_auth.json
 
 
-ARG MONGO_USERNAME 
 RUN --mount=type=secret,id=MONGO_USERNAME,required=true \
-    export MONGO_USERNAME=$(cat /run/secrets/MONGO_USERNAME)
-ARG MONGO_PASSWORD 
+    export MONGO_USERNAME=$(cat /run/secrets/MONGO_USERNAME) && \
+    echo $MONGO_USERNAME
 RUN --mount=type=secret,id=MONGO_PASSWORD,required=true \
-    export MONGO_PASSWORD=$(cat /run/secrets/MONGO_PASSWORD)
-ARG GOOGLE_APPLICATION_CREDENTIALS 
+    export MONGO_PASSWORD=$(cat /run/secrets/MONGO_PASSWORD) && \
+    echo $MONGO_PASSWORD
 RUN --mount=type=secret,id=GOOGLE_APPLICATION_CREDENTIALS,required=true \
-    export GOOGLE_APPLICATION_CREDENTIALS=$(cat /run/secrets/GOOGLE_APPLICATION_CREDENTIALS)
-ARG GOOGLE_MAPS_API_KEY 
+    export GOOGLE_APPLICATION_CREDENTIALS=$(cat /run/secrets/GOOGLE_APPLICATION_CREDENTIALS) && \
+    echo $GOOGLE_APPLICATION_CREDENTIALS
 RUN --mount=type=secret,id=GOOGLE_MAPS_API_KEY,required=true \
-    export GOOGLE_MAPS_API_KEY=$(cat /run/secrets/GOOGLE_MAPS_API_KEY)
+    export GOOGLE_MAPS_API_KEY=$(cat /run/secrets/GOOGLE_MAPS_API_KEY) && \
+    echo $GOOGLE_MAPS_API_KEY
 
 RUN npm install
 
