@@ -48,7 +48,7 @@ jobs:
         with:
           push: true
           context: .
-          file: ./backend
+          file: ./backend/Dockerfile
           platforms: linux/amd64
           tags: ${{ steps.login-ecr.outputs.registry }}/routeme:proj2_backend_${{env.NOW}}
           secrets: |
