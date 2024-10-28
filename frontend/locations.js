@@ -3,7 +3,7 @@
 //const BACKEND_API = "http://localhost:8800/api/v1/customer_data/"; // used for testing containerized app
 // const BACKEND_API = "https://routemeback.benyellow.com/api/v1/customer_data/";
 const BACKEND_API =
-  "http://routeme-alb-1630067429.us-east-1.elb.amazonaws.com/api/v1/customer_data/";
+  "routeme-alb-1630067429.us-east-1.elb.amazonaws.com/routeme-back/api/v1/customer_data/";
 const main = document.getElementById("customer_list_section");
 const form = document.getElementById("form");
 const checklist_buttons = document.getElementById("checklist_buttons");
