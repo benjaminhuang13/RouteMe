@@ -1,22 +1,6 @@
 # syntax = docker/dockerfile:1.2
+
 FROM node:20-alpine
-
-
-RUN --mount=type=secret,id=mongo_password,required=true  \
-    cat /run/secrets/mongo_password
-RUN --mount=type=secret,id=mongo_username,required=true,target=/run/secrets/mongo_username  \
-    cat /run/secrets/mongo_username
-RUN --mount=type=secret,id=mongo_password,required=true \
-    export MONGO_PASSWORD=$(cat /run/secrets/mongo_password) && \
-    echo $MONGO_PASSWORD
-RUN --mount=type=secret,id=g_app_cred,required=true \
-    export GOOGLE_APPLICATION_CREDENTIALS=$(cat /run/secrets/g_app_cred) && \
-    echo $GOOGLE_APPLICATION_CREDENTIALS
-RUN --mount=type=secret,id=g_maps_api_key,required=true \
-    export GOOGLE_MAPS_API_KEY=$(cat /run/secrets/g_maps_api_key) && \
-    echo $GOOGLE_MAPS_API_KEY
-
-
 #RUN mkdir -p app && chown -R node:node /app
 WORKDIR /app
 COPY . /app
@@ -38,7 +22,19 @@ RUN touch /app/secrets/gcp_auth.json
 # RUN echo "Output of ls /secrets:"
 # RUN cat output.txt
 
-
+RUN --mount=type=secret,id=mongo_password,required=true  \
+    cat /run/secrets/mongo_password
+RUN --mount=type=secret,id=mongo_username,required=true,target=/run/secrets/mongo_username  \
+    cat /run/secrets/mongo_username
+RUN --mount=type=secret,id=mongo_password,required=true \
+    export MONGO_PASSWORD=$(cat /run/secrets/mongo_password) && \
+    echo $MONGO_PASSWORD
+RUN --mount=type=secret,id=g_app_cred,required=true \
+    export GOOGLE_APPLICATION_CREDENTIALS=$(cat /run/secrets/g_app_cred) && \
+    echo $GOOGLE_APPLICATION_CREDENTIALS
+RUN --mount=type=secret,id=g_maps_api_key,required=true \
+    export GOOGLE_MAPS_API_KEY=$(cat /run/secrets/g_maps_api_key) && \
+    echo $GOOGLE_MAPS_API_KEY
 
 RUN npm install
 
