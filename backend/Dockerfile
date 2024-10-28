@@ -14,6 +14,13 @@ RUN mkdir -p /app/secrets/
 RUN touch /app/secrets/gcp_auth.json
 
 
+RUN --mount=type=secret,id=mongo_username \
+  --mount=type=secret,id=mongo_password \
+   export MONGO_USERNAME=$(cat /run/secrets/mongo_username) && \
+   export MONGO_PASSWORD=$(cat /run/secrets/mongo_password) && \
+   yarn gen
+
+
 RUN --mount=type=secret,id=mongo_username,required=true \
     cat /run/secrets/mongo_username >> /root/.ssh/id_rsa && \
     echo "Secret is $(cat /run/secrets/mongo_username)" && \
