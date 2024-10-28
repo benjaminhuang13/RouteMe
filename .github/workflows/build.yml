@@ -51,12 +51,11 @@ jobs:
           file: ./backend/Dockerfile
           platforms: linux/amd64
           tags: ${{ steps.login-ecr.outputs.registry }}/routeme:proj2_backend_${{env.NOW}}
-          build-args:
           secrets: |
-            "mongo_username = ${{ secrets.MONGO_USERNAME }}"
-            "mongo_password = ${{ secrets.MONGO_PASSWORD }}"
-            "g_app_cred = ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}"
-            "g_maps_api_key = ${{secrets.GOOGLE_MAPS_API_KEY}}"
+            MONGO_USERNAME = ${{ secrets.MONGO_USERNAME }}
+            MONGO_PASSWORD = ${{ secrets.MONGO_PASSWORD }}
+            g_app_cred = ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+            g_maps_api_key = ${{secrets.GOOGLE_MAPS_API_KEY}}
 
   # build-frontend:
   #   name: Build Image for frontend
