@@ -1,19 +1,5 @@
-# on: push
-# jobs:
-#   build-node:
-#     runs-on: ubuntu-latest
-#     container: node:20
-#     steps:
-#       - run: node --version
-#       - run: npm -- version
-#       - uses: actions/checkout@v3
-#       - run: npm install
-#         working-directory: backend
-#       - run: npm start
-#         working-directory: backend
-
 name: Deploy Backend Service to ECR
-on: push
+on: workflow_dispatch
 jobs:
   build:
     name: Build Image for backend
