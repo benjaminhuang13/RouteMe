@@ -1,5 +1,5 @@
 name: Deploy Backend Service to ECR
-on: workflow_dispatch
+on: push
 jobs:
   build:
     name: Build Image for backend
