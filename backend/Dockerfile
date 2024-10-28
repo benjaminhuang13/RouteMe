@@ -23,8 +23,7 @@ RUN touch /app/secrets/gcp_auth.json
 # RUN cat output.txt
 
 
-RUN --mount=type=secret,id=mongo_username,required=true,env=MONGO_USERNAME  \
-    cat /run/secrets/mongo_username
+RUN --mount=type=secret,id=mongo_username,required=true,env=MONGO_USERNAME
 RUN --mount=type=secret,id=mongo_password,required=true \
     export MONGO_PASSWORD=$(cat /run/secrets/mongo_password) && \
     echo $MONGO_PASSWORD
