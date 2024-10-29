@@ -11,7 +11,7 @@ app.use(cors()); //use middleware
 app.use(express.json()); //allows server to accept json in a body of a request
 app.use("/api/v1/customer_data", customer_data); //url of the routes
 app.use(
-  "http://routeme-alb-1630067429.us-east-1.elb.amazonaws.com/routeme-back/api/v1/customer_data",
+  "routeme-alb-1630067429.us-east-1.elb.amazonaws.com/routeme-back/api/v1/customer_data",
   customer_data
 ); //url of the routes
 app.use("*", (req, res) =>
