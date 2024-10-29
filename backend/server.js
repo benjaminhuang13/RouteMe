@@ -12,7 +12,7 @@ app.use("*", (req, res) =>
   res.status(404).json({ error: "Routeme not found sorry" })
 ); //backup route
 
-router.get("/health", (req, res) => {
+app.get("/health", (req, res) => {
   res.status(200).send("Ok");
 });
 
