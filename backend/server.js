@@ -4,7 +4,7 @@ import customer_data from "./api/customer_data.route.js";
 
 const app = express(); //load express into
 app.get("/health", (req, res) => {
-  res.status(200).send("Ok");
+  res.status(200).send("Health checked!");
   console.log("Health checked!");
 });
 app.use(cors()); //use middleware
