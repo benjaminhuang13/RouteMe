@@ -8,7 +8,7 @@ const mongo_username = process.env["MONGO_USERNAME"];
 const mongo_password = process.env["MONGO_PASSWORD"];
 
 const uri = `mongodb+srv://${mongo_username}:${mongo_password}@bargonzocluster.kh6ad.mongodb.net/?retryWrites=true&w=majority&appName=BargonzoCluster`;
-const port = 8000;
+const port = 80;
 
 MongoClient.connect(uri, {
   maxPoolSize: 50,

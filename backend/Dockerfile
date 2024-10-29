@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . /app
 #USER node
 COPY --chown=node:node . .
-EXPOSE 8000
+EXPOSE 80
 
 RUN mkdir -p /app/secrets/ 
 RUN touch /app/.env
