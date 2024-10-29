@@ -39,11 +39,11 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.login-ecr.outputs.registry }}/routeme:proj2_backend_${{env.NOW}}
           secrets: |
-            mongo_username=${{ secrets.MONGO_USERNAME }}
-            mongo_password=${{ secrets.MONGO_PASSWORD }}
-            g_app_cred=${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
-            g_maps_api_key=${{secrets.GOOGLE_MAPS_API_KEY}}
-            g_svc_acc_key=${{secrets.GOOGLE_SVC_KEY}}
+            "mongo_username=${{ secrets.MONGO_USERNAME }}"
+            "mongo_password=${{ secrets.MONGO_PASSWORD }}"
+            "g_app_cred=${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}"
+            "g_maps_api_key=${{secrets.GOOGLE_MAPS_API_KEY}}"
+            "g_svc_acc_key=${{secrets.GOOGLE_SVC_KEY}}"
 
   build-frontend:
     name: Build Image for frontend
