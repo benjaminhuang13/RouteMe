@@ -13,8 +13,6 @@ RUN --mount=type=secret,id=mongo_password,required=true  \
     export MONGO_PASSWORD=$(cat /run/secrets/mongo_password) && \
     echo "MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}" >> /data/.env
 
-RUN --mount=type=secret,id=github_token,env=MONGO_INITDB_ROOT_USERNAME
-
 ENV MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
 ENV MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
 
