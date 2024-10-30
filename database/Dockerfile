@@ -1,4 +1,5 @@
-FROM dockerfile/ubuntu
+# syntax = docker/dockerfile:1.2
+FROM mongo:latest
 # Install MongoDB.
 RUN \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
