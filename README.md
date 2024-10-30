@@ -1,0 +1,90 @@
+# RouteMe
+
+This is a fullstack app that allows you to submit/save multiple addresses and output the optimal route (via Google Maps API). For the front end this app uses HTML, CSS, JavaScript. For the back end it uses NodeJS, ExpressJS. Each branch shows a different way to deploy this full stack app.
+
+This is deploying using only S3, EC2, MongoDB Database.
+
+![diagram](https://github.com/benjaminhuang13/RouteMe/blob/1_deploy_vm/diagram.png?raw=true)
+
+1. Go to AWS console, create t2.micro instance and allow SSH from your IP
+2. How to transfer app files from local Mac to remote EC2 https://www.youtube.com/watch?v=nQdyiK7-VlQ&t=785s&ab_channel=SamMeech-Ward
+
+   - Download the private ssh key (to authenticate into remote EC2) usually this is added to ~/.ssh/key.pem
+   - `chmod 600 <path to ssh key>`
+   - `ssh-add ~/.ssh/key.pem` this locks down permissions
+   - `scp -r myproj1 ubuntu@IPADDRESS:~/app (-r is for transfer whole folders)`
+
+   How to transfer app files from windows to remote EC2
+   `pscp -i "C:\Users\<path>\<key_name>.ppk" "myproj1\index.js" ubuntu@<IP>:~/app`
+
+3. `sudo nano /etc/myproj1.env`
+
+   - MONGO_USERNAME=mongo_user
+   - MONGO_PASSWORD=XXXXXXX
+   - GOOGLE_APPLICATION_CREDENTIALS=./secrets/gcp_auth.json
+   - GOOGLE_MAPS_API_KEY=XXXXXXXXXX
+
+4. Test Running App (but once you close the EC2, the app will stop running, see next step)
+
+   - install dependencies: `npm install`
+   - node index.js OR node start (this was set up in the package.json)
+   - Whitelist EC2 IP on mongodo under Security/Network Access
+   - `npm start`
+
+5. CREATE SYSTEMD for the APP
+
+   - sudo nano /etc/systemd/system/myproj1.service
+   - Add the below:
+     [Unit]
+     Description=Node.js App for proj 1
+     After=network.target multi-user.target
+
+     [Service]
+     User=ubuntu
+     WorkingDirectory=/home/ubuntu/app/myproj1
+     ExecStart=/usr/bin/npm start
+     Restart=always
+     Environment=NODE_ENV=production
+     EnvironmentFile=/etc/myproj1.env
+     StandardOutput=syslog
+     StandardError=syslog
+     SyslogIdentifier=myproj1
+
+     [Install]
+     WantedBy=multi-user.target
+
+6. Start the systemd
+   `sudo systemctl daemon-reload`
+   `sudo systemctl enable myproj1.service`
+   `sudo systemctl start myproj1.service`
+
+   `sudo systemctl stop myproj1.service`
+
+7. Troubleshooting
+   `systemctl status myproj1.service` How to status details of your service
+   `journalctl -xeu myproj1.service` How to log details of your service
+   `cat /var/log/syslog` check system logs  
+   `curl localhost:8000` check that the app is running
+   `sudo lsof -i :8000` how to check what process is running on port 8000
+   `kill -9 <PID>` how to kill that process
+   `env` checks the .env file
+
+8. Install CADDY (REVERSE PROXY):
+
+   `sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl`
+   `curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg`
+   `curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list`
+   `sudo apt update`
+   `sudo apt install caddy`
+   Edit Caddy config file
+   `sudo nano /etc/caddy/Caddyfile`
+   :80 {
+   reverse_proxy localhost:3000
+   }
+
+- `sudo systemctl restart caddy`
+
+## Deploying Frontend to S3
+
+1. create static website on s3 and upload frontend files. Make sure to disable block public access and update IAM policy to allow access to all
+2. Use cloudflare as proxy and set it up to redirect to s3 bucket.
