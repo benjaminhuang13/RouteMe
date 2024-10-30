@@ -18,14 +18,6 @@ app.use("/routeme-back/api/v1/customer_data", customer_data, (req, res) =>
   res.status(200).send("Routeme: /routeme-back/api/v1/customer_data")
 ); //url of the routes
 
-app.use("routeme-back/api/v1/customer_data", customer_data, (req, res) =>
-  res.status(200).send("Routeme: routeme-back/api/v1/customer_data")
-); //url of the routes
-
-app.use(
-  "routeme-alb-1630067429.us-east-1.elb.amazonaws.com/routeme-back/api/v1/customer_data",
-  customer_data
-); //url of the routes
 app.use("*", (req, res) =>
   res.status(404).json({ error: "Routeme page not found sorry" })
 ); //backup route
