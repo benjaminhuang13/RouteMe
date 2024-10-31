@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import customer_data from "./api/customer_data.route.js";
 
+const app = express(); //load express into
+
 //CORS middleware
 var corsMiddleware = function (req, res, next) {
   res.header(
@@ -20,7 +22,6 @@ var corsMiddleware = function (req, res, next) {
 };
 app.use(corsMiddleware);
 
-const app = express(); //load express into
 app.get("/health", (req, res) => {
   res.status(200).send("Health checked!");
   console.log("Health checked!");
