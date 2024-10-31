@@ -201,24 +201,24 @@ function returnSavedCustomers(checked_customers_list) {
 }
 
 // TODO: add search bar back by uncommenting in the index.HTML file
-form.addEventListener("submit", (e) => {
-  e.preventDefault(); //stops the form from submitting in the traditional way, which would refresh the page.
-  main.innerHTML = ""; //clears any existing content in the main element.
+// form.addEventListener("submit", (e) => {
+//   e.preventDefault(); //stops the form from submitting in the traditional way, which would refresh the page.
+//   main.innerHTML = ""; //clears any existing content in the main element.
 
-  const searchItem = search.value; //retrieves the value from the search input field.
+//   const searchItem = search.value; //retrieves the value from the search input field.
 
-  if (searchItem) {
-    //If searchItem is not empty, it proceeds to call the returnMovies function with a URL constructed from a base SEARCHAPI and the search term.
+//   if (searchItem) {
+//     //If searchItem is not empty, it proceeds to call the returnMovies function with a URL constructed from a base SEARCHAPI and the search term.
 
-    let results = search_customer_db(searchItem);
-    results = customer_data2;
-    returnCustomerData(results);
-    search.value = ""; // resets search field
-  } else {
-    returnCustomerData(customer_data);
-    console.log("Nothing inputted in search");
-  }
-});
+//     let results = search_customer_db(searchItem);
+//     results = customer_data2;
+//     returnCustomerData(results);
+//     search.value = ""; // resets search field
+//   } else {
+//     returnCustomerData(customer_data);
+//     console.log("Nothing inputted in search");
+//   }
+// });
 
 function getCheckedBoxes() {
   let checkboxes = document.getElementsByClassName("customer_list_checkbox");
