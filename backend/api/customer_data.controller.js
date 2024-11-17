@@ -3,6 +3,7 @@ import "dotenv/config";
 import routing from "@googlemaps/routing";
 import { GoogleAuth } from "google-auth-library";
 
+
 let geocoder;
 const start_location_lat = 40.758116;
 const start_location_long = -73.831308;
