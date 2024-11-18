@@ -4,7 +4,7 @@ This is a fullstack app that allows you to submit/save multiple addresses and ou
 
 This is deploying using GitHub Actions, Docker, ECR, ECS, Service Connect.
 
-![diagram](https://github.com/benjaminhuang13/RouteMe/blob/2_aws/diagram.png?raw=true)
+![diagram](https://github.com/benjaminhuang13/RouteMe/blob/3_aws_serverless/diagram.png?raw=true)
 
 # GitHub Actions
 
