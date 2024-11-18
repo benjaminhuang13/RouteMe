@@ -6,17 +6,14 @@ const app = express(); //load express into
 
 //CORS middleware
 var corsMiddleware = function (req, res, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "http://routeme-alb-1630067429.us-east-1.elb.amazonaws.com/"
-  ); //replace localhost with actual host
+  res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Methods",
     "OPTIONS, GET, PUT, PATCH, POST, DELETE"
   );
   res.header(
     "Access-Control-Allow-Headers",
-    "Content-Type, X-Requested-With, Authorization"
+    "Origin, Content-Type, X-Requested-With, Authorization, Accept"
   );
   next();
 };
