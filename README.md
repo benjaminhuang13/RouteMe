@@ -10,12 +10,9 @@ This is deploying using GitHub Actions, Docker, ECR, ECS fargate, MongoDB Atlas.
 
 - How to build Gitlab Action to deploy image to ECR: https://plainenglish.io/community/build-push-docker-image-to-aws-ecr-using-github-actions
 - How to create dockerfile https://www.digitalocean.com/community/tutorials/how-to-build-a-node-js-application-with-docker#step-3-writing-the-dockerfile
+- frontend is pushed to s3 bucket by github actions
 
-# ECS
-
-https://catalog.us-east-1.prod.workshops.aws/workshops/8c9036a7-7564-434c-b558-3588754e21f5/en-US/02-setup
-
-# Service Connect
+# ECS Fargate
 
 # Google API Permissions
 
