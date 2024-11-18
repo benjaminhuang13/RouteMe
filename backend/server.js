@@ -3,6 +3,7 @@ import cors from "cors";
 import customer_data from "./api/customer_data.route.js";
 
 const app = express(); //load express into
+app.use(cors()); //use middleware
 
 //CORS middleware
 var corsMiddleware = function (req, res, next) {
@@ -23,7 +24,6 @@ app.get("/health", (req, res) => {
   res.status(200).send("Health checked!");
   console.log("Health checked!");
 });
-app.use(cors()); //use middleware
 app.use(express.json()); //allows server to accept json in a body of a request
 
 app.use("/api/v1/customer_data", customer_data, (req, res) =>
