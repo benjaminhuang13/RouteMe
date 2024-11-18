@@ -2,7 +2,7 @@
 
 This is a fullstack app that allows you to submit/save multiple addresses and output the optimal route (via Google Maps API). For the front end this app uses HTML, CSS, JavaScript. For the back end it uses NodeJS, ExpressJS. Each branch shows a different way to deploy this full stack app.
 
-This is deploying using GitHub Actions, Docker, ECR, ECS, Service Connect.
+This is deploying using GitHub Actions, Docker, ECR, ECS fargate, MongoDB Atlas.
 
 ![diagram](https://github.com/benjaminhuang13/RouteMe/blob/3_aws_serverless/diagram.png?raw=true)
 
