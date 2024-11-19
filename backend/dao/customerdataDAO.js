@@ -1,5 +1,7 @@
 import mongodb from "mongodb";
 const ObjectId = mongodb.ObjectId;
+import AWS from "aws-sdk";
+const post_customer_sqs = new AWS.SQS({ region: "us-east-1" });
 
 let customer_data;
 
@@ -33,6 +35,7 @@ export default class CustomerDataDAO {
   ) {
     try {
       console.log("Writing new customer to database");
+
       const customerDoc = {
         name: name,
         street_addr: street_addr,
@@ -43,10 +46,24 @@ export default class CustomerDataDAO {
         lat: lat,
         long: long,
       };
-      console.log("adding " + name);
-      return await customer_data.insertOne(customerDoc);
+
+      const queueUrl =
+        "https://sqs.us-east-1.amazonaws.com/471112517107/post_customer_queue";
+      const params = {
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify(customerDoc), // Send the data as a JSON string
+      };
+      const sqsResponse = await post_customer_sqs.sendMessage(params).promise();
+      console.log("Message sent to SQS:", sqsResponse);
+
+      // Respond with success message
+      res.json({ status: "success", messageId: sqsResponse.MessageId });
+
+      console.log("adding customer" + name);
+      //return await customer_data.insertOne(customerDoc);
     } catch (e) {
-      console.error(`Unable to post customer_addr: ${e}`);
+      console.error("Error sending message to SQS:", e);
+      //console.error(`Unable to post customer_addr: ${e}`);
       return { error: e };
     }
   }
