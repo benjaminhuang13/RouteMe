@@ -29,7 +29,7 @@ def lambda_handler(event, context):
     if(event):
         for r in event["Records"]:
             record = json.loads(r["body"])
-            print("Processing event name {}\n {}".format(record["name"],r))
+            print("Processing event: {}".format(record))
 
             response = collection.insert_one(record)
             if response.acknowledged:
