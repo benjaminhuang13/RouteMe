@@ -66,7 +66,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
+          aws-region: us-east-1
       - run: zip -j lambda1.zip ./postCustomerFunction/lambda_function.py
       - run: aws lambda update-function-code --function-name=arn:aws:lambda:us-east-1:471112517107:function:postCustomerFunction --zip-file=fileb://lambda1.zip
 
