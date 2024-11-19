@@ -120,7 +120,7 @@ export default class CustomerDataDAO {
       const query = { _id: new ObjectId(customerObjId) };
       // send to sqs
       const del_queueUrl =
-        "arn:aws:sqs:us-east-1:471112517107:delete_customer_queue";
+        "https://sqs.us-east-1.amazonaws.com/471112517107/delete_customer_queue";
       const params = {
         QueueUrl: del_queueUrl,
         MessageBody: JSON.stringify(query), // Send the data as a JSON string
