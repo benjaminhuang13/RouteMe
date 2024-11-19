@@ -6,8 +6,6 @@ from pymongo import MongoClient
 mongo_username = os.environ.get('MONGO_USERNAME')
 mongo_password = os.environ.get('MONGO_PASSWORD')
 
-mongo_username='mongo_user'     # testing: delete this
-mongo_password='c26uq9sQ7..BHHr'    # testing: delete this
 cluster_name = 'bargonzocluster'
 appname ='BargonzoCluster'
 cluster = MongoClient("mongodb+srv://{}:{}@{}.kh6ad.mongodb.net/?retryWrites=true&w=majority&appName={}".format(mongo_username, mongo_password, cluster_name, appname))
