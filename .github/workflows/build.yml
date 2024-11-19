@@ -71,7 +71,7 @@ jobs:
       - run: |
           sudo apt install zip
           mkdir -p ./deployment_zip 
-          pip install pymongo[srv] --platform manylinux2010_x86_64 --only-binary=:all: -t ./deployment_zip
+          pip install pymongo[srv] -t ./deployment_zip
           cp ./postCustomerFunction/lambda_function.py  ./deployment_zip
           cd deployment_zip 
           zip -j -r lambda1.zip *
