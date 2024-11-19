@@ -67,14 +67,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-
       - run: |
           sudo apt install zip
           mkdir -p ./deployment_zip 
           pip install pymongo[srv] -t ./deployment_zip
           cp ./postCustomerFunction/lambda_function.py  ./deployment_zip
           cd deployment_zip 
-          zip -j -r lambda1.zip *
+          zip -r lambda1.zip *
 
       #- run: zip -j lambda1.zip ./postCustomerFunction/lambda_function.py
       - run: aws lambda update-function-code --function-name=arn:aws:lambda:us-east-1:471112517107:function:postCustomerFunction --zip-file=fileb://lambda1.zip
