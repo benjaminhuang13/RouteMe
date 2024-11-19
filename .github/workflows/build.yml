@@ -65,7 +65,7 @@ jobs:
       - name: Install zip tool
         uses: montudor/action-zip@v1
       - name: Create Zip file for Lambda function
-        run: zip -r code.zip postCustomerFunction/.
+        run: zip -r code.zip postCustomerFunction/
       - name: AWS CLI v2
         uses: imehedi/actions-awscli-v2@latest
         with:
