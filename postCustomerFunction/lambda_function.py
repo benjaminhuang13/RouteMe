@@ -23,19 +23,20 @@ test_record= {'name': 'testtest',
 
 def lambda_handler(event, context):
     print(event)
-    for r in event['Records']:
-        record = json.loads(r['body'])
-        print("processing event: {}".format(record['name']))
+    if(event):
+        for r in event['Records']:
+            record = json.loads(r['body'])
+            print("processing event: {}".format(record['name']))
 
-        response = collection.insert_one(record)
-        if response.acknowledged:
-            print('success adding customer')
-        else:
-            print('failed adding customer')
-            return {        
-                'statusCode': 500,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps('Execution failed. response: {}'.format(response))}
+            response = collection.insert_one(record)
+            if response.acknowledged:
+                print('success adding customer')
+            else:
+                print('failed adding customer')
+                return {        
+                    'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json'},
+                    'body': json.dumps('Execution failed. response: {}'.format(response))}
     return {
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json'},
