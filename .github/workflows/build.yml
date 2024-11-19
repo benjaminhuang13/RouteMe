@@ -74,9 +74,9 @@ jobs:
           cp ./postCustomerFunction/lambda_function.py  ./deployment_zip
           cd deployment_zip 
           zip -r lambda1.zip *
-
-      #- run: zip -j lambda1.zip ./postCustomerFunction/lambda_function.py
-      - run: aws lambda update-function-code --function-name=arn:aws:lambda:us-east-1:471112517107:function:postCustomerFunction --zip-file=fileb://lambda1.zip
+      - run: aws lambda update-function-code --function-name=arn:aws:lambda:us-east-1:471112517107:function:postCustomerFunction --zip-file fileb://./deployment_zip/lambda_zip.zip
+        #- run: zip -j lambda1.zip ./postCustomerFunction/lambda_function.py
+        #- run: aws lambda update-function-code --function-name=arn:aws:lambda:us-east-1:471112517107:function:postCustomerFunction --zip-file=fileb://lambda1.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
