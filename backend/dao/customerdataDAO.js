@@ -2,6 +2,7 @@ import mongodb from "mongodb";
 const ObjectId = mongodb.ObjectId;
 import AWS from "aws-sdk";
 const post_customer_sqs = new AWS.SQS({ region: "us-east-1" });
+const del_customer_sqs = new AWS.SQS({ region: "us-east-1" });
 
 let customer_data;
 
@@ -46,7 +47,7 @@ export default class CustomerDataDAO {
         lat: lat,
         long: long,
       };
-
+      // send to sqs
       const queueUrl =
         "https://sqs.us-east-1.amazonaws.com/471112517107/post_customer_queue";
       const params = {
@@ -54,15 +55,13 @@ export default class CustomerDataDAO {
         MessageBody: JSON.stringify(customerDoc), // Send the data as a JSON string
       };
       const sqsResponse = await post_customer_sqs.sendMessage(params).promise();
-      console.log("Message sent to SQS:", sqsResponse);
-
-      // Respond with success message
-      res.json({ status: "success", messageId: sqsResponse.MessageId });
+      console.log("Message sent to post SQS:", sqsResponse);
+      res.json({ status: "success", messageId: sqsResponse.MessageId }); // Respond with success message
 
       console.log("adding customer" + name);
       //return await customer_data.insertOne(customerDoc);
     } catch (e) {
-      console.error("Error sending message to SQS:", e);
+      console.error("Error sending message to post SQS:", e);
       //console.error(`Unable to post customer_addr: ${e}`);
       return { error: e };
     }
@@ -116,31 +115,28 @@ export default class CustomerDataDAO {
     }
   }
 
-  // static async deleteCustomer(customer_obj_Id) {
-  //   try {
-  //     const deleteResponse = await customer_data.deleteOne({
-  //       _id: ObjectId(customer_obj_Id),
-  //     });
-  //     if (deleteResponse["deletedCount"]) {
-  //       console.log("Successfully deleted " + deleteResponse["deletedCount"]);
-  //     }
-  //     return deleteResponse;
-  //   } catch (e) {
-  //     console.error(`Unable to delete customer: ${e}`);
-  //     return { error: e };
-  //   }
-  // }
-
   static async deleteCustomer(customerObjId) {
     try {
       const query = { _id: new ObjectId(customerObjId) };
-      const deleteResponse = await customer_data.deleteOne(query);
-      if (deleteResponse["deletedCount"]) {
-        console.log("Successfully deleted " + deleteResponse["deletedCount"]);
-      }
-      return deleteResponse;
+      // send to sqs
+      const del_queueUrl =
+        "arn:aws:sqs:us-east-1:471112517107:delete_customer_queue";
+      const params = {
+        QueueUrl: del_queueUrl,
+        MessageBody: JSON.stringify(query), // Send the data as a JSON string
+      };
+      const sqsResponse = await del_customer_sqs.sendMessage(params).promise();
+      console.log("Message sent to delete SQS:", sqsResponse);
+      res.json({ status: "success", messageId: sqsResponse.MessageId }); // Respond with success message
+      console.log("deleting customer objID " + customerObjId);
+
+      // const deleteResponse = await customer_data.deleteOne(query);
+      // if (deleteResponse["deletedCount"]) {
+      //   console.log("Successfully deleted " + deleteResponse["deletedCount"]);
+      // }
+      // return deleteResponse;
     } catch (e) {
-      console.error(`Unable to delete customer: ${e}`);
+      console.error(`Unable to sending message to delete SQS: ${e}`);
       return { error: e };
     }
   }
