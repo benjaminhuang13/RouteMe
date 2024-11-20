@@ -54,11 +54,12 @@ export default class CustomerDataDAO {
         QueueUrl: queueUrl,
         MessageBody: JSON.stringify(customerDoc), // Send the data as a JSON string
       };
+      console.log("json stringify query: " + JSON.stringify(customerDoc));
+
       const sqsResponse = await post_customer_sqs.sendMessage(params).promise();
       console.log("Message sent to post SQS:", sqsResponse);
-      res.json({ status: "success", messageId: sqsResponse.MessageId }); // Respond with success message
-
       console.log("adding customer" + name);
+      return { status: "success", messageId: sqsResponse.MessageId }; // Respond with success message
       //return await customer_data.insertOne(customerDoc);
     } catch (e) {
       console.error("Error sending message to post SQS:", e);
@@ -125,11 +126,11 @@ export default class CustomerDataDAO {
         QueueUrl: del_queueUrl,
         MessageBody: JSON.stringify(query), // Send the data as a JSON string
       };
+      console.log("json stringify query: " + JSON.stringify(query));
       const sqsResponse = await del_customer_sqs.sendMessage(params).promise();
       console.log("Message sent to delete SQS:", sqsResponse);
-      res.json({ status: "success", messageId: sqsResponse.MessageId }); // Respond with success message
       console.log("deleting customer objID " + customerObjId);
-
+      return { status: "success", messageId: sqsResponse.MessageId }; // Respond with success message
       // const deleteResponse = await customer_data.deleteOne(query);
       // if (deleteResponse["deletedCount"]) {
       //   console.log("Successfully deleted " + deleteResponse["deletedCount"]);
