@@ -23,10 +23,9 @@ def lambda_handler(event, context):
             name = record['name']
             street_addr = record['street_addr']
             print("Processing event: {} \n\n {}".format(record, record['name']))
-            query = {"_id": id, "name":name, "street_addr":street_addr}
+            query = {"name":name, "street_addr":street_addr}
             response = collection.delete_one(query)
-            print(response)
-            print()
+            print('response: ' + response)
             if response.acknowledged:
                 print('success deleting customer')
             else:
