@@ -24,8 +24,6 @@ def lambda_handler(event, context):
             street_addr = record['street_addr']
             print("Processing event: {} \n\n {}".format(record, record['name']))
             query = {"_id": id, "name":name, "street_addr":street_addr}
-            query = { "name":'test234', "street_addr":'test'}
-
             response = collection.delete_one(query)
             print(response)
             print()
