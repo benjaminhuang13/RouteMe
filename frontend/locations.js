@@ -48,7 +48,7 @@ async function returnCustomerData(url) {
                 <p class="customer_list_addr"><strong>Address: </strong>${customer.street_addr}</p>
                 <p class="customer_list_addr"><strong></strong>${customer.city}, ${customer.state} ${customer.zip}</p>
                 <p class="customer_list_addr"><a href="#" onclick="editCustomer('${customer._id}', '${customer.name}','${customer.street_addr}','${customer.city}','${customer.state}','${customer.zip}')"> <strong>Edit</strong></a> 
-                <p class="customer_list_addr"><a href="#" onclick="deleteCustomer('${customer._id}')"> <strong>Delete</strong></a></p>
+                <p class="customer_list_addr"><a href="#" onclick="deleteCustomer('${customer._id}', '${customer.name}', '${customer.street_addr}')"> <strong>Delete</strong></a></p>
           </div>
         `;
         div_checklist.appendChild(div_card);
@@ -444,7 +444,7 @@ function clear() {
   //responseDiv.style.display = "none";
 }
 
-function deleteCustomer(customerObjId) {
+function deleteCustomer(customerObjId, name, st_addr) {
   console.log("deleteCustomer function called for Id:" + customerObjId);
   fetch(BACKEND_API + "customer/" + customerObjId, {
     method: "DELETE",
@@ -452,6 +452,11 @@ function deleteCustomer(customerObjId) {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({
+      customerObjId: customerObjId,
+      name: name,
+      street_addr: st_addr,
+    }),
   })
     .then((res) => res.json())
     .then((res) => {

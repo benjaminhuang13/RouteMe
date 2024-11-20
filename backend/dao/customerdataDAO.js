@@ -116,9 +116,13 @@ export default class CustomerDataDAO {
     }
   }
 
-  static async deleteCustomer(customerObjId) {
+  static async deleteCustomer(customerObjId, name, st_addr) {
     try {
-      const query = { _id: new ObjectId(customerObjId) };
+      const query = {
+        _id: new ObjectId(customerObjId),
+        name: name,
+        street_addr: st_addr,
+      };
       // send to sqs
       const del_queueUrl =
         "https://sqs.us-east-1.amazonaws.com/471112517107/delete_customer_queue";

@@ -104,10 +104,15 @@ export default class CustomersCtrl {
 
   static async apiDeleteCustomer(req, res, next) {
     try {
-      const customerObjId = req.params.id;
+      const customerObjId = req.body.customerObjId;
+      const name = req.body.name;
+      const street_addr = req.body.street_addr;
+      //const customerObjId = req.params.id;
       console.log("Trying to delete " + customerObjId);
       const customerResponse = await CustomerDataDAO.deleteCustomer(
-        customerObjId
+        customerObjId,
+        name,
+        street_addr
       );
       res.json({ status: "success" });
     } catch (e) {

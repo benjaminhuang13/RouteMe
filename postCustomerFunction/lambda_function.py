@@ -22,8 +22,7 @@ test_record= {'name': 'testtest',
         'long': 88,}
 
 
-test_message = {'Records': [{'messageId': 'c863054d', 'receiptHandle': '//+/+/+//+==', 
-    'body': '{"name": "testtest",\n"street_addr": "test",\n"city": "New York",\n"state": "NY",\n"zip": 11355,\n"country": "US",\n"lat": 88,\n"long": 88}', 'attributes': {'ApproximateReceiveCount': '2', 'SentTimestamp': '1732054792440', 'SenderId': '471112517107', 'ApproximateFirstReceiveTimestamp': '1732054792441'}, 'messageAttributes': {}, 'md5OfBody': '29dc1e8d6b4686988a1df9c622182fe2', 'eventSource': 'aws:sqs', 'eventSourceARN': 'arn:aws:sqs:us-east-1:471112517107:post_customer_queue', 'awsRegion': 'us-east-1'}]}
+test_message = {'Records': [{'messageId': 'cc85c4d6-d6b1-4b8d-bd9b-c0412cc089e8', 'receiptHandle': 'AQEBHH8Ex+3I03WJhRCk2Z2XW5CiBBaz+lqHER1JCe2dWyNqwH2UWvTGtN4e7B9X42FUqMq/Un1kkJ4UvcRy4GBqmxI+YjFeCzw9fu5mMBGeWwNFw+W0i5MTJ/3LE7NZzKKoQiLMskEBohhugOyHhOqLOwi5lLsM6ZFiil+dHAVaIgPK44amLcZPlgf0WLnGLL7PORob90BXjj6zQCrL9GAwkl6z6UxoNsHo9B4a05w0wCvWKCoT/otv+jZky45tGg6NJ6cCqXucC7CSQ71hNcPejgfzloHfYmsupzAPGlEKGH+vdzJXwXwutmPDLutA/gpHlQQVQ0FTYGqeYU+cw0AlLCqHeir+RNixOhn15hIUFYVDh42ZIUFEggKZMZWDRLfKieHsrLTlWoDyialz7LZlzA==', 'body': '{"_id":"673d2ecb861004e0524a0fd0"}', 'attributes': {'ApproximateReceiveCount': '1', 'SentTimestamp': '1732064263165', 'SenderId': 'AROAW3MD6QXZTGIWUTKCE:27601050de9746cf9321d02a3160aecf', 'ApproximateFirstReceiveTimestamp': '1732064263175'}, 'messageAttributes': {}, 'md5OfBody': '658c17ba9a05265881f03990fd58cfb9', 'eventSource': 'aws:sqs', 'eventSourceARN': 'arn:aws:sqs:us-east-1:471112517107:delete_customer_queue', 'awsRegion': 'us-east-1'}]}
 
 def lambda_handler(event, context):
     print(event)
