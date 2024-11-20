@@ -34,23 +34,6 @@ router
 
 export default router;
 
-// router.route("/new").post(async (req, res) => {
-//   console.log("Adding job to queue: " + JSON.stringify(req.body));
-//   try {
-//     jobQueue.add({ jobData: req.body });
-//     //console.log("req.body: " + JSON.stringify(req.body));
-//     res.status(200).send({ success: true, message: "Job in queue !" });
-//   } catch (err) {
-//     res.status(200).send({ success: false });
-//   }
-// });
-
-// jobQueue.process(function (job, done) {
-//   console.log("Processing job " + JSON.stringify(job.data.jobData));
-//   CustomersCtrl.apiPostCustomer(job.data.jobData);
-//   done();
-// });
-
 // Send message to SQS
 router.route("/new").post(async (req, res) => {
   console.log("Adding job to SQS: " + JSON.stringify(req.body));

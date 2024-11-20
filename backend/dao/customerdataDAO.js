@@ -1,5 +1,5 @@
-import mongodb from "mongodb";
-const ObjectId = mongodb.ObjectId;
+import AWS from "aws-sdk";
+const mongodb_sqs = new AWS.SQS({ region: "us-east-1" });
 
 let customer_data;
 
@@ -33,9 +33,8 @@ export default class CustomerDataDAO {
     long
   ) {
     try {
-      console.log("Writing new customer to database");
-      const customerDoc = {
-        customerId: customerId,
+      const message = {
+        api: post,
         name: name,
         street_addr: street_addr,
         city: city,
@@ -45,15 +44,19 @@ export default class CustomerDataDAO {
         lat: lat,
         long: long,
       };
-      console.log(
-        "adding " +
-          name +
-          ", id: " +
-          customerId +
-          ", type: " +
-          typeof customerId
-      );
-      return await customer_data.insertOne(customerDoc);
+      // send to sqs
+      const queueUrl =
+        "https://sqs.us-east-1.amazonaws.com/471112517107/proj1_db_mngr";
+      const params = {
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify(message), // Send the data as a JSON string
+      };
+      console.log("json stringify query: " + JSON.stringify(message));
+
+      const sqsResponse = await post_customer_sqs.sendMessage(params).promise();
+      console.log("Message sent to post SQS:", sqsResponse);
+      console.log("adding customer" + name);
+      return { status: "success", messageId: sqsResponse.MessageId }; // Respond with success message
     } catch (e) {
       console.error(`Unable to post customer_addr: ${e}`);
       return { error: e };
@@ -62,7 +65,20 @@ export default class CustomerDataDAO {
 
   static async getCustomer(customerId) {
     try {
-      return await customer_data.findOne({ _id: ObjectId(customerId) });
+      const message = {
+        api: get,
+        customerId: customerId,
+      };
+      // send to sqs
+      const queueUrl =
+        "https://sqs.us-east-1.amazonaws.com/471112517107/proj1_db_mngr";
+      const params = {
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify(message), // Send the data as a JSON string
+      };
+      console.log("json stringify query: " + JSON.stringify(message));
+      const sqsResponse = await post_customer_sqs.sendMessage(params).promise();
+      return { status: "success", messageId: sqsResponse.MessageId }; // Respond with success message
     } catch (e) {
       console.error(`Unable to get customer: ${e}`);
       return { error: e };
@@ -71,8 +87,18 @@ export default class CustomerDataDAO {
 
   static async getAllCustomer() {
     try {
-      console.log("Querying all Customers");
-      return await customer_data.find({});
+      const message = {
+        api: getall,
+        customerId: customerId,
+      };
+      // send to sqs
+      const queueUrl =
+        "https://sqs.us-east-1.amazonaws.com/471112517107/proj1_db_mngr";
+      const params = {
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify(message), // Send the data as a JSON string
+      };
+      return { status: "success", messageId: sqsResponse.MessageId }; // Respond with success message
     } catch (e) {
       console.error(`Unable to get ALL customer: ${e}`);
       return { error: e };
@@ -81,50 +107,45 @@ export default class CustomerDataDAO {
 
   static async updateCustomer(customerId, name, street_addr, city, state, zip) {
     try {
-      const options = { upsert: true };
-      const updateResponse = await customer_data.updateOne(
-        //{ _id: ObjectId(customerId) },
-        { customerId: parseInt(customerId) },
-        {
-          $set: {
-            name: name,
-            street_addr: street_addr,
-            city: city,
-            state: state,
-            zip: zip,
-          },
-        }
-      );
-      return updateResponse;
+      const message = {
+        api: update,
+        customerId: parseInt(customerId),
+        $set: {
+          name: name,
+          street_addr: street_addr,
+          city: city,
+          state: state,
+          zip: zip,
+        },
+      };
+      // send to sqs
+      const queueUrl =
+        "https://sqs.us-east-1.amazonaws.com/471112517107/proj1_db_mngr";
+      const params = {
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify(message), // Send the data as a JSON string
+      };
+      return { status: "success", messageId: sqsResponse.MessageId }; // Respond with success message
     } catch (e) {
       console.error(`Unable to update customer: ${e}`);
       return { error: e };
     }
   }
 
-  // static async deleteCustomer(customer_obj_Id) {
-  //   try {
-  //     const deleteResponse = await customer_data.deleteOne({
-  //       _id: ObjectId(customer_obj_Id),
-  //     });
-  //     if (deleteResponse["deletedCount"]) {
-  //       console.log("Successfully deleted " + deleteResponse["deletedCount"]);
-  //     }
-  //     return deleteResponse;
-  //   } catch (e) {
-  //     console.error(`Unable to delete customer: ${e}`);
-  //     return { error: e };
-  //   }
-  // }
-
   static async deleteCustomer(customerId) {
     try {
-      const query = { customerId: parseInt(customerId) };
-      const deleteResponse = await customer_data.deleteOne(query);
-      if (deleteResponse["deletedCount"]) {
-        console.log("Successfully deleted " + deleteResponse["deletedCount"]);
-      }
-      return deleteResponse;
+      const message = {
+        api: "delete",
+        customerId: parseInt(customerId),
+      };
+      // send to sqs
+      const queueUrl =
+        "https://sqs.us-east-1.amazonaws.com/471112517107/proj1_db_mngr";
+      const params = {
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify(message), // Send the data as a JSON string
+      };
+      return { status: "success", messageId: sqsResponse.MessageId }; // Respond with success message
     } catch (e) {
       console.error(`Unable to delete customer: ${e}`);
       return { error: e };
@@ -134,10 +155,18 @@ export default class CustomerDataDAO {
   static async getCustomerById(customerId) {
     try {
       console.log("Getting customer by customerId");
-      const cursor = await customer_data.find({
+      const message = {
+        api: getId,
         customerId: parseInt(customerId),
-      });
-      return cursor.toArray();
+      };
+      // send to sqs
+      const queueUrl =
+        "https://sqs.us-east-1.amazonaws.com/471112517107/proj1_db_mngr";
+      const params = {
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify(message), // Send the data as a JSON string
+      };
+      return { status: "success", messageId: sqsResponse.MessageId }; // Respond with success message
     } catch (e) {
       console.error(`Unable to get customer: ${e}`);
       return { error: e };
