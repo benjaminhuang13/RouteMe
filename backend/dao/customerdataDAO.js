@@ -98,7 +98,7 @@ export default class CustomerDataDAO {
     try {
       const options = { upsert: true };
       const updateResponse = await customer_data.updateOne(
-        { _id: new ObjectId(customerId) },
+        { _id: new ObjectId(customerObjId) },
         {
           $set: {
             name: name,
